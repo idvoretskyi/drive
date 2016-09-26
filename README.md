@@ -71,11 +71,11 @@ go 1.5.X or higher is required. See [here](https://golang.org/doc/install) for i
 * Make sure to set your GOPATH in your env, .bashrc or .bash\_profile file. If you have not yet set it, you can do so like this:
 
 ```shell
-$ cat << ! >> ~/.bashrc
+cat << ! >> ~/.bashrc
 > export GOPATH=\$HOME/gopath
 > export PATH=\$GOPATH:\$GOPATH/bin:\$PATH
 > !
-$ source ~/.bashrc # To reload the settings and get the newly set ones # Or open a fresh terminal
+source ~/.bashrc # To reload the settings and get the newly set ones # Or open a fresh terminal
 ```
 The above setup will ensure that the drive binary after compilation can be invoked from your current path.
 
@@ -84,7 +84,7 @@ The above setup will ensure that the drive binary after compilation can be invok
 To install from the latest source, run:
 
 ```shell
-$ go get -u github.com/odeke-em/drive/cmd/drive
+go get -u github.com/odeke-em/drive/cmd/drive
 ```
 
 Otherwise:
@@ -92,13 +92,13 @@ Otherwise:
 * In order to address [issue #138](https://github.com/odeke-em/drive/issues/138), where debug information should be bundled with the binary, you'll need to run:
 
 ```shell
-$ go get github.com/odeke-em/drive/drive-gen && drive-gen
+go get github.com/odeke-em/drive/drive-gen && drive-gen
 ```
 
 In case you need a specific binary e.g for Debian folks [issue #271](https://github.com/odeke-em/drive/issues/271) and [issue 277](https://github.com/odeke-em/drive/issues/277)
 
 ```shell
-$ go get -u github.com/odeke-em/drive/drive-google
+go get -u github.com/odeke-em/drive/drive-google
 ```
 
 That should produce a binary `drive-google`
@@ -108,7 +108,7 @@ OR
 To bundle debug information with the binary, you can run:
 
 ```shell
-$ go get -u github.com/odeke-em/drive/drive-gen && drive-gen drive-google
+go get -u github.com/odeke-em/drive/drive-gen && drive-gen drive-google
 ```
 
 
@@ -116,12 +116,12 @@ $ go get -u github.com/odeke-em/drive/drive-gen && drive-gen drive-google
 
 + Using godep
 ```
-$ cd $GOPATH/src/github.com/odeke-em/drive/drive-gen && godep save
+cd $GOPATH/src/github.com/odeke-em/drive/drive-gen && godep save
 ```
 
 + Unravelling/Restoring dependencies
 ```
-$ cd $GOPATH/src/github.com/odeke-em/drive/drive-gen && godep restore
+cd $GOPATH/src/github.com/odeke-em/drive/drive-gen && godep restore
 ```
 
 Please see file `drive-gen/README.md` for more information.
@@ -159,8 +159,8 @@ Optionally set the `GOOGLE_API_CLIENT_ID` and `GOOGLE_API_CLIENT_SECRET` environ
 Before you can use `drive`, you'll need to mount your Google Drive directory on your local file system:
 
 ```shell
-$ drive init ~/gdrive
-$ cd ~/gdrive
+drive init ~/gdrive
+cd ~/gdrive
 ```
 
 ### De Initializing
@@ -168,7 +168,7 @@ $ cd ~/gdrive
 The opposite of `drive init`, it will remove your credentials locally as well as configuration associated files.
 
 ```shell
-$ drive deinit [--no-prompt]
+drive deinit [--no-prompt]
 ```
 
 For a complete deinit-ialization, don't forget to revoke account access, [please see revoking account access](#revoking-account-access)
@@ -235,7 +235,7 @@ The `pull` command downloads data that does not exist locally but does remotely 
 Run it without any arguments to pull all of the files from the current path:
 
 ```shell
-$ drive pull
+drive pull
 ```
 
 To pull and decrypt your data that is stored encrypted at rest on Google Drive, use flag `--decryption-password`:
@@ -243,32 +243,32 @@ To pull and decrypt your data that is stored encrypted at rest on Google Drive, 
 See [Issue #543](https://github.com/odeke-em/issues/543)
 
 ```shell
-$ drive pull --decryption-password "$JiME5Umf" influx.txt
+drive pull --decryption-password "$JiME5Umf" influx.txt
 ```
 
 Pulling by matches is also supported
 
 ```shell
-$ cd ~/myDrive/content/2015
-$ drive pull --matches vines docx
+cd ~/myDrive/content/2015
+drive pull --matches vines docx
 ```
 
 To force download from paths that otherwise would be marked with no-changes
 
 ```shell
-$ drive pull -force
+drive pull -force
 ```
 
 To pull specific files or directories, pass in one or more paths:
 
 ```shell
-$ drive pull photos/img001.png docs
+drive pull photos/img001.png docs
 ```
 
 Pulling by id is also supported
 
 ```shell
-$ drive pull --id 0fM9rt0Yc9RTPaDdsNzg1dXVjM0E 0fM9rt0Yc9RTPaTVGc1pzODN1NjQ 0fM9rt0Yc9RTPV1NaNFp5WlV3dlU
+drive pull --id 0fM9rt0Yc9RTPaDdsNzg1dXVjM0E 0fM9rt0Yc9RTPaTVGc1pzODN1NjQ 0fM9rt0Yc9RTPV1NaNFp5WlV3dlU
 ```
 
 `pull` optionally allows you to pull content up to a desired depth.
@@ -276,22 +276,22 @@ $ drive pull --id 0fM9rt0Yc9RTPaDdsNzg1dXVjM0E 0fM9rt0Yc9RTPaTVGc1pzODN1NjQ 0fM9
 Say you would like to get just folder items until the second level
 
 ```shell
-$ drive pull --depth 2 heavy-files summaries
+drive pull --depth 2 heavy-files summaries
 ```
 
 Traverse deep to infinity and beyond
 
 ```shell
-$ drive pull --depth -1 all-my-files
+drive pull --depth -1 all-my-files
 ```
 
 Pulling starred files is allowed as well
 
 ```shell
-$ drive pull --starred
-$ drive pull --starred --matches content
-$ drive pull --starred --all # Pull all the starred files that aren't in the trash
-$ drive pull --starred --all --trashed # Pull all the starred files in the trash
+drive pull --starred
+drive pull --starred --matches content
+drive pull --starred --all # Pull all the starred files that aren't in the trash
+drive pull --starred --all --trashed # Pull all the starred files in the trash
 ```
 
 Like most commands [.driveignore](#driveignore) can be used to filter which files to pull.
@@ -301,8 +301,8 @@ To selectively pull by type e.g file vs directory/folder, you can use flags
 - `directories`
 
 ```shell
-$ drive pull --files a1/b2
-$ drive pull --directories tf1
+drive pull --files a1/b2
+drive pull --directories tf1
 ```
 
 ## Note: Checksum verification:
@@ -316,7 +316,7 @@ Modification time changes are operations of their own and can be made:
 To turn checksum verification back on:
 
 ```shell
-$ drive pull -ignore-checksum=false
+drive pull -ignore-checksum=false
 ```
 
 
@@ -324,13 +324,13 @@ $ drive pull -ignore-checksum=false
 drive also supports piping pulled content to stdout which can be accomplished by:
 
 ```shell
-$ drive pull -piped path1 path2
+drive pull -piped path1 path2
 ```
 
 + In relation to issue #529, you can change the max retry counts for exponential backoff. Using a count < 0 falls back to the
 default count of 20:
 ```shell
-$ drive pull --retry-count 14 documents/2016/March videos/2013/September
+drive pull --retry-count 14 documents/2016/March videos/2013/September
 ```
 
 #### Exporting Docs
@@ -338,25 +338,25 @@ $ drive pull --retry-count 14 documents/2016/March videos/2013/September
 By default, the `pull` command will export Google Docs documents as PDF files. To specify other formats, use the `-export` option:
 
 ```shell
-$ drive pull -export pdf,rtf,docx,txt
+drive pull -export pdf,rtf,docx,txt
 ```
 
 To explicitly export instead of using `--force`
 
 ```shell
-$ drive pull --export pdf,rtf,docx,txt --explicitly-export
+drive pull --export pdf,rtf,docx,txt --explicitly-export
 ```
 
 By default, the exported files will be placed in a new directory suffixed by `\_exports` in the same path. To export the files to a different directory, use the `-export-dir` option:
 
 ```shell
-$ drive pull -export pdf,rtf,docx,txt -export-dir ~/Desktop/exports
+drive pull -export pdf,rtf,docx,txt -export-dir ~/Desktop/exports
 ```
 
 Otherwise, you can export files to the same directory as requested in [issue #660](https://github.com/odeke-em/drive/issues/660),
 by using pull flag `--same-exports-dir`. For example:
 ```shell
- drive pull --explicitly-export --exports-dir ~/Desktop/exp --export pdf,txt,odt --same-exports-dir 
+drive pull --explicitly-export --exports-dir ~/Desktop/exp --export pdf,txt,odt --same-exports-dir 
 Resolving...
 + /test-exports/few.docs
 + /test-exports/few
@@ -395,7 +395,7 @@ Like `pull`, you can run it without any arguments to push all of the files from 
 `push` also allows you to push content up to a desired traversal depth e.g
 
 ```shell
-$ drive push --depth 1 head-folders
+drive push --depth 1 head-folders
 ```
 
 You can also push multiple paths that are children of the root of the mounted drive to a destination,
@@ -405,27 +405,27 @@ in relation to issue #612, using key `--destination`:
 For example to push the content of `music/Travi$+Future`, `integrals/complex/compilations` directly to `a1/b2/c3`:
 
 ```shell
-$ drive push --destination a1/b2/c3 music/Travi$+Future integrals/complex/compilations
+drive push --destination a1/b2/c3 music/Travi$+Future integrals/complex/compilations
 ```
 
 
 To enable checksum verification during a push:
 
 ```shell
-$ drive push -ignore-checksum=false
+drive push -ignore-checksum=false
 ```
 
 To keep your data encrypted at rest remotely on Google Drive:
 
 ```shell
-$ drive push --encryption-password "$JiME5Umf" influx.txt
+drive push --encryption-password "$JiME5Umf" influx.txt
 ```
 For E2E discussions, see [issue #543](https://github.com/odeke-em/issues/543):
 
 drive also supports pushing content piped from stdin which can be accomplished by:
 
 ```shell
-$ drive push -piped path
+drive push -piped path
 ```
 
 To selectively push by type e.g file vs directory/folder, you can use flags
@@ -433,8 +433,8 @@ To selectively push by type e.g file vs directory/folder, you can use flags
 - `directories`
 
 ```shell
-$ drive push --files a1/b2
-$ drive push --directories tf1
+drive push --files a1/b2
+drive push --directories tf1
 ```
 
 Like most commands [.driveignore](#driveignore) can be used to filter which files to push.
@@ -442,7 +442,7 @@ Like most commands [.driveignore](#driveignore) can be used to filter which file
 Here is an example using drive to backup the current working directory. It pushes a tar.gz archive created on the fly. No archive file is made on the machine running the command, so it doesn't waste disk space.
 
 ```shell
-$ tar czf - . | drive push -piped backup-$(date +"%m-%d-%Y-"%T"").tar.gz
+tar czf - . | drive push -piped backup-$(date +"%m-%d-%Y-"%T"").tar.gz
 ```
 
 + Note:
@@ -451,22 +451,22 @@ $ tar czf - . | drive push -piped backup-$(date +"%m-%d-%Y-"%T"").tar.gz
    A couple of scenarios in which data was getting totally clobbered and unrecoverable, drive now tries to play it safe and warn you if your data could potentially be lost e.g during a to-disk clobber for which you have no backup. At least with a push you have the luxury of untrashing content. To disable this safety, run drive with flag `-ignore-conflict` e.g:
 
     ```shell
-    $ drive pull -ignore-conflict collaboration_documents
+    drive pull -ignore-conflict collaboration_documents
     ```
 
     Playing the safety card even more, if you want to get changes that are non clobberable ie only additions
     run drive with flag `-no-clobber` e.g:
 
     ```shell
-    $ drive pull -no-clobber Makefile
+    drive pull -no-clobber Makefile
     ```
 
   * Ordinarily your system will not traverse nested symlinks e.g:
   ```shell
-    $ mkdir -p a/b
-    $ mkdir -p ~/Desktop/z1/z2 && ls ~ > ~/Desktop/z1/z2/listing.txt
-    $ ln -s ~/Desktop/z1/z2 a/b
-    $ ls -R a # Should print only z2 and nothing inside it. 
+    mkdir -p a/b
+    mkdir -p ~/Desktop/z1/z2 && ls ~ > ~/Desktop/z1/z2/listing.txt
+    ln -s ~/Desktop/z1/z2 a/b
+    ls -R a # Should print only z2 and nothing inside it. 
   ```
 
     However in relation to [#80](https://github.com/odeke-em/drive/issues/80), for purposes of consistency with your Drive, traversing symlinks has been added.
@@ -474,38 +474,38 @@ $ tar czf - . | drive push -piped backup-$(date +"%m-%d-%Y-"%T"").tar.gz
 For safety with non clobberable changes i.e only additions:
 
 ```shell
-$ drive push -no-clobber
+drive push -no-clobber
 ```
 
 + Due to the reasons above, drive should be able to warn you in case of total clobbers on data. To turn off this behaviour/safety, pass in the `-ignore-conflict` flag i.e:
 
 ```shell
-$ drive push -force sure_of_content
+drive push -force sure_of_content
 ```
 
 To push without user input (i.e. without prompt)
 ```shell
-$ drive push -quiet
+drive push -quiet
 ```
 or
 ```shell
-$ drive push -no-prompt
+drive push -no-prompt
 ```
 
 To get Google Drive to convert a file to its native Google Docs format
 
 ```shell
-$ drive push -convert
+drive push -convert
 ```
 Extra features: to make Google Drive attempt Optical Character Recognition (OCR) for png, gif, pdf and jpg files.
 
 ```shell
-$ drive push -ocr
+drive push -ocr
 ```
 Note: To use OCR, your account should have this feature. You can find out if your account has OCR allowed.
 
 ```shell
-$ drive features
+drive features
 ```
 
 ## Note:
@@ -515,7 +515,7 @@ $ drive features
   If you would like to coerce a certain mimeType that you'd prefer to assert with Google Drive pushes, use flag `-coerce-mime <short-key>` See [List of MIME type short keys](https://github.com/odeke-em/drive/wiki/List-of-MIME-type-short-keys) for the full list of short keys.
 
 ```shell
-$ drive push -coerce-mime docx my_test_doc
+drive push -coerce-mime docx my_test_doc
 ```
 
 + Excluding certain operations can be done both for pull and push by passing in flag
@@ -524,22 +524,22 @@ $ drive push -coerce-mime docx my_test_doc
 e.g
 
 ```shell
-$ drive pull --exclude-ops "delete,update" vines
-$ drive push --exclude-ops "create" sensitive_files
+drive pull --exclude-ops "delete,update" vines
+drive push --exclude-ops "create" sensitive_files
 ```
 
 + To show more information during pushes or pulls e.g show the current operation,
 pass in option `--verbose` e.g:
 
 ```shell
-$ drive pull --verbose 2015/Photos content
-$ drive push --verbose Music Fall2014
+drive pull --verbose 2015/Photos content
+drive push --verbose Music Fall2014
 ```
 
 + In relation to issue #529, you can change the max retry counts for exponential backoff. Using a count < 0 falls back to the
 default count of 20:
 ```shell
-$ drive push --retry-count 4 a/bc/def terms
+drive push --retry-count 4 a/bc/def terms
 ```
 
 ### End to End Encryption
@@ -556,11 +556,11 @@ and store it remotely encrypted(stored encrypted at rest), it can only be decryp
 perform a pull with the respective arg `--decryption-password`.
 
 ```shell
-$ drive push --encryption-password "$400lsGO1Di3" few-ones.mp4 newest.mkv
+drive push --encryption-password "$400lsGO1Di3" few-ones.mp4 newest.mkv
 ```
 
 ```shell
-$ drive pull --decryption-password "$400lsGO1Di3" few-ones.mp4 newest.mkv
+drive pull --decryption-password "$400lsGO1Di3" few-ones.mp4 newest.mkv
 ```
 
 If you supply the wrong password, you'll be warned if it cannot be decrypted
@@ -580,13 +580,13 @@ passing in a password and no attempts will be made.
 The `pub` command publishes a file or directory globally so that anyone can view it on the web using the link returned.
 
 ```shell
-$ drive pub photos
+drive pub photos
 ```
 
 + Publishing by fileId is also supported
 
 ```shell
-$ drive pub --id 0fM9rt0Yc9RTPV1NaNFp5WlV3dlU 0fM9rt0Yc9RTPSTZEanBsamZjUXM
+drive pub --id 0fM9rt0Yc9RTPV1NaNFp5WlV3dlU 0fM9rt0Yc9RTPSTZEanBsamZjUXM
 ```
 
 ### Unpublishing
@@ -594,13 +594,13 @@ $ drive pub --id 0fM9rt0Yc9RTPV1NaNFp5WlV3dlU 0fM9rt0Yc9RTPSTZEanBsamZjUXM
 The `unpub` command is the opposite of `pub`. It unpublishes a previously published file or directory.
 
 ```shell
-$ drive unpub photos
+drive unpub photos
 ```
 
 + Publishing by fileId is also supported
 
 ```shell
-$ drive unpub --id 0fM9rt0Yc9RTPV1NaNFp5WlV3dlU 0fM9rt0Yc9RTPSTZEanBsamZjUXM
+drive unpub --id 0fM9rt0Yc9RTPV1NaNFp5WlV3dlU 0fM9rt0Yc9RTPSTZEanBsamZjUXM
 ```
 
 ### Sharing and Emailing
@@ -608,27 +608,27 @@ $ drive unpub --id 0fM9rt0Yc9RTPV1NaNFp5WlV3dlU 0fM9rt0Yc9RTPSTZEanBsamZjUXM
 The `share` command enables you to share a set of files with specific users and assign them specific roles as well as specific generic access to the files. It also allows for email notifications on share.
 
 ```shell
-$ drive share --emails odeke@ualberta.ca,odeke.ex@gmail.com --message "This is the substring file I told you about" --role reader,writer -type group mnt/substringfinder.c projects/kmp.c
+drive share --emails odeke@ualberta.ca,odeke.ex@gmail.com --message "This is the substring file I told you about" --role reader,writer -type group mnt/substringfinder.c projects/kmp.c
 $ drive share --emails emm.odeke@gmail.com,odeke@ualberta.ca --role reader,commenter --type user influx traversal/notes/conquest
 ```
 
 For example to share a file with users of a mailing list and a custom message
 
 ```shell
-$ drive share -emails drive-mailing-list@gmail.com -message "Here is the drive code" -role group mnt/drive
+drive share -emails drive-mailing-list@gmail.com -message "Here is the drive code" -role group mnt/drive
 ```
 
 + Also supports sharing by fileId
 
 ```shell
-$ drive share --emails developers@developers.devs --message "Developers, developers developers" --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
+drive share --emails developers@developers.devs --message "Developers, developers developers" --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
 ```
 
 + You can also share a file to only those with the link. As per [https://github.com/odeke-em/drive/issues/568](https://github.com/odeke-em/drive/issues/568), this file won't be publicly indexed. To turn this option on when sharing the file,
 use flag `--with-link`.
 
 ```shell
-$ drive share --with-link ComedyPunchlineDrumSound.mp3
+drive share --with-link ComedyPunchlineDrumSound.mp3
 ```
 
 ### Unsharing
@@ -638,14 +638,14 @@ The `unshare` command revokes access of a specific accountType to a set of files
 When no --role is given it by default assumes you want to revoke all access ie "reader", "writer", "commenter"
 
 ```shell
-$ drive unshare -type group mnt/drive
-$ drive unshare --emails  emm.odeke@gmail.com,odeke@ualberta.ca --type user,group --role reader,commenter infinity newfiles/confidential
+drive unshare -type group mnt/drive
+drive unshare --emails  emm.odeke@gmail.com,odeke@ualberta.ca --type user,group --role reader,commenter infinity newfiles/confidential
 ```
 
 + Also supports unsharing by fileId
 
 ```shell
-$ drive unshare --type group --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
+drive unshare --type group --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
 ```
 
 ### Diffing
@@ -653,26 +653,26 @@ $ drive unshare --type group --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTF
 The `diff` command compares local files with their remote equivalents. It allows for multiple paths to be passed in e.g
 
 ```shell
-$ drive diff changeLogs.log notes sub-folders/
+drive diff changeLogs.log notes sub-folders/
 ```
 
 You can diff to a desired depth
 
 ```shell
-$ drive diff --depth 2 sub-folders/ contacts/ listings.txt
+drive diff --depth 2 sub-folders/ contacts/ listings.txt
 ```
 
 You can also switch the base, either local or remote by using flag `--base-local`
 
 ```shell
-$ drive diff --base-local=true assignments photos # To use local as the base
-$ drive diff --base-local=false infocom photos # To use remote as the base
+drive diff --base-local=true assignments photos # To use local as the base
+drive diff --base-local=false infocom photos # To use remote as the base
 ```
 
 You can only diff for short changes that is only name differences, file modTimes and types, you can use flag `--skip-content-check`.
 
 ```shell
-$ drive diff --skip-content-check
+drive diff --skip-content-check
 ```
 
 ### Touching
@@ -680,38 +680,38 @@ $ drive diff --skip-content-check
 Files that exist remotely can be touched i.e their modification time updated to that on the remote server using the `touch` command:
 
 ```shell
-$ drive touch Photos/img001.png logs/log9907.txt
+drive touch Photos/img001.png logs/log9907.txt
 ```
 
 For example to touch all files that begin with digits 0  to 9:
 
 ```shell
-$ drive touch -matches $(seq 0 9)
+drive touch -matches $(seq 0 9)
 ```
 
 + Also supports touching of files by fileId
 
 ```shell
-$ drive touch --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
+drive touch --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
 ```
 
 + You can also touch files to a desired depth of nesting within their parent folders.
 
 ```shell
-$ drive touch --depth 3 mnt newest flux
-$ drive touch --depth -1 --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
-$ drive touch --depth 1 --matches $(seq 0 9)
+drive touch --depth 3 mnt newest flux
+drive touch --depth -1 --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
+drive touch --depth 1 --matches $(seq 0 9)
 ```
 
 + You can also touch and explicitly set the modification time for files by:
 ```shell
-$ drive touch --time 20120202120000 ComedyPunchlineDrumSound.mp3
+drive touch --time 20120202120000 ComedyPunchlineDrumSound.mp3
 /share-testing/ComedyPunchlineDrumSound.mp3: 2012-02-02 12:00:00 +0000 UTC
 ```
 
 + Specify the time format that you'd like to use when specifying the time e.g
 ```shell
-$ drive touch --format "2006-01-02-15:04:05.0000Z" --time "2016-02-03-08:12:15.0070Z" outf.go
+drive touch --format "2006-01-02-15:04:05.0000Z" --time "2016-02-03-08:12:15.0070Z" outf.go
 /share-testing/outf.go: 2016-02-03 08:12:15 +0000 UTC
 ```
 The mentioned time format has to be relative to how you would represent
@@ -722,7 +722,7 @@ See the documentation for time formatting here [time.Parse](https://golang.org/p
 - minus(-) means ago e.g 30 hours ago -> -30h
 - blank or plus(+) means from now e.g 10 minutes -> 10m or +10m
 ```shell
-$ drive touch --duration -30h ComedyPunchlineDrumSound.mp3 outf.go
+drive touch --duration -30h ComedyPunchlineDrumSound.mp3 outf.go
 /share-testing/outf.go: 2016-09-10 08:06:39 +0000 UTC
 /share-testing/ComedyPunchlineDrumSound.mp3: 2016-09-10 08:06:39 +0000 UTC
 ```
@@ -732,7 +732,7 @@ $ drive touch --duration -30h ComedyPunchlineDrumSound.mp3 outf.go
 Files can be trashed using the `trash` command:
 
 ```shell
-$ drive trash Demo
+drive trash Demo
 ```
 
 To trash files that contain a prefix match e.g all files that begin with Untitled, or Make
@@ -740,26 +740,26 @@ To trash files that contain a prefix match e.g all files that begin with Untitle
 Note: This option uses the current working directory as the parent that the paths belong to.
 
 ```shell
-$ drive trash -matches Untitled Make
+drive trash -matches Untitled Make
 ```
 
 Files that have been trashed can be restored using the `untrash` command:
 
 ```shell
-$ drive untrash Demo
+drive untrash Demo
 ```
 
 To untrash files that match a certain prefix pattern
 
 ```shell
-$ drive untrash -matches pQueue photos Untitled
+drive untrash -matches pQueue photos Untitled
 ```
 
 + Also supports trashing/untrashing by fileId
 
 ```shell
-$ drive trash --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
-$ drive untrash --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
+drive trash --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
+drive untrash --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
 ```
 
 
@@ -768,7 +768,7 @@ $ drive untrash --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
 Emptying the trash will permanently delete all trashed files. Caution: They cannot be recovered after running this command.
 
 ```shell
-$ drive emptytrash
+drive emptytrash
 ```
 
 ### Deleting
@@ -776,17 +776,17 @@ $ drive emptytrash
 Deleting items will PERMANENTLY remove the items from your drive. This operation is irreversible.
 
 ```shell
-$ drive delete flux.mp4
+drive delete flux.mp4
 ```
 
 ```shell
-$ drive delete --matches onyx swp
+drive delete --matches onyx swp
 ```
 
 + Also supports deletion by fileIds
 
 ```shell
-$ drive delete --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
+drive delete --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
 ```
 
 
@@ -797,37 +797,37 @@ The `list` command shows a paginated list of files present remotely.
 Run it without arguments to list all files in the current directory's remote equivalent:
 
 ```shell
-$ drive list
+drive list
 ```
 
 Pass in a directory path to list files in that directory:
 
 ```shell
-$ drive list photos
+drive list photos
 ```
 
 To list matches
 
 ```shell
-$ drive list --matches mp4 go
+drive list --matches mp4 go
 ```
 
 The `-trashed` option can be specified to show trashed files in the listing:
 
 ```shell
-$ drive list -trashed photos
+drive list -trashed photos
 ```
 
 To get detailed information about the listings e.g owner information and the version number of all listed files:
 
 ```shell
-$ drive list -owners -l -version
+drive list -owners -l -version
 ```
 
 + Also supports listing by fileIds
 
 ```shell
-$ drive list -depth 3 --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
+drive list -depth 3 --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
 ```
 
 + Listing allows for sorting by fields e.g `name`, `version`, `size, `modtime`, lastModifiedByMeTime `lvt`, `md5`. To do this in reverse order, suffix `_r` or `-` to the selected key
@@ -835,15 +835,15 @@ $ drive list -depth 3 --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTV
 e.g to first sort by modTime, then largest-to-smallest and finally most number of saves:
 
 ```
-$ drive list --sort modtime,size_r,version_r Photos
+drive list --sort modtime,size_r,version_r Photos
 ```
 
 * For advanced listing
 
 ```shell
-$ drive list --skip-mime mp4,doc,txt
-$ drive list --match-mime xls,docx
-$ drive list --exact-title url_test,Photos
+drive list --skip-mime mp4,doc,txt
+drive list --match-mime xls,docx
+drive list --exact-title url_test,Photos
 ```
 
 ### Stating Files
@@ -852,25 +852,25 @@ The `stat` commands show detailed file information for example people with whom 
 fileId etc. It is useful to help determine whom and what you want to be set when performing share/unshare
 
 ```shell
-$ drive stat mnt
+drive stat mnt
 ```
 
 By default `stat` won't recursively stat a directory, to enable recursive stating:
 
 ```shell
-$ drive stat -r mnt
+drive stat -r mnt
 ```
 
 + Also supports stat-ing by fileIds
 
 ```shell
-$ drive stat -r --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
+drive stat -r --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
 ```
 
 OR
 
 ```shell
-$ drive stat -depth 4 --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
+drive stat -depth 4 --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U
 ```
 
 ### Retrieving md5 Checksums
@@ -910,13 +910,13 @@ drive allows you to create an empty file or folder remotely
 Sample usage:
 
 ```shell
-$ drive new --folder flux
-$ drive new --mime-key doc bofx
-$ drive new --mime-key folder content
-$ drive new --mime-key presentation ProjectsPresentation
-$ drive new --mime-key sheet Hours2015Sept
-$ drive new --mime-key form taxForm2016 taxFormCounty
-$ drive new flux.txt oxen.pdf # Allow auto type resolution from the extension
+drive new --folder flux
+drive new --mime-key doc bofx
+drive new --mime-key folder content
+drive new --mime-key presentation ProjectsPresentation
+drive new --mime-key sheet Hours2015Sept
+drive new --mime-key form taxForm2016 taxFormCounty
+drive new flux.txt oxen.pdf # Allow auto type resolution from the extension
 ```
 
 ### Editing Description
@@ -924,29 +924,29 @@ $ drive new flux.txt oxen.pdf # Allow auto type resolution from the extension
 You can edit the description of a file like this
 
 ```shell
-$ drive edit-desc --description "This is a new file description" freshFolders/1.txt commonCore/
-$ drive edit-description --description "This is a new file description" freshFolders/1.txt commonCore/
+drive edit-desc --description "This is a new file description" freshFolders/1.txt commonCore/
+drive edit-description --description "This is a new file description" freshFolders/1.txt commonCore/
 ```
 
 Even more conveniently by piping content
 
 ```shell
-$ cat fileDescriptions | drive edit-desc --piped  targetFile influx/1.txt
+cat fileDescriptions | drive edit-desc --piped  targetFile influx/1.txt
 ```
 
 ### FileId Retrieval
 
 You can retrieve just the fileId for specified paths
 ```shell
-$ drive id [--depth n] [paths...]
-$ drive file-id [--depth n] [paths...]
+drive id [--depth n] [paths...]
+drive file-id [--depth n] [paths...]
 ```
 
 For example:
 
 ```shell
-$ drive file-id --depth 2 dup-tests bug-reproductions
-$ # drive file-id --depth 2 dup-tests bug-reproductions
+drive file-id --depth 2 dup-tests bug-reproductions
+# drive file-id --depth 2 dup-tests bug-reproductions
 FileId                                           Relative Path
 "0By5qKlgRJeV2NB1OTlpmSkg8TFU"                   "/dup-tests"
 "0Bz5wQlgRJeP2QkRSenBTaUowU3c"                   "/dup-tests/influx_0"
@@ -962,7 +962,7 @@ FileId                                           Relative Path
 The `quota` command prints information about your drive, such as the account type, bytes used/free, and the total amount of storage available.
 
 ```shell
-$ drive quota
+drive quota
 ```
 
 ### Features
@@ -971,7 +971,7 @@ The `features` command provides information about the features present on the
 drive being queried and the request limit in queries per second
 
 ```shell
-$ drive features
+drive features
 ```
 
 ### About
@@ -979,12 +979,12 @@ $ drive features
 The `about` command provides information about the program as well as that about
 your Google Drive. Think of it as a hybrid between the `features` and `quota` commands.
 ```shell
-$ drive about
+drive about
 ```
 
 OR for detailed information
 ```shell
-$ drive about -features -quota
+drive about -features -quota
 ```
 
 ### Help
@@ -992,18 +992,18 @@ $ drive about -features -quota
 Run the `help` command without any arguments to see information about the commands that are available:
 
 ```shell
-$ drive help
+drive help
 ```
 
 Pass in the name of a command to get information about that specific command and the options that can be passed to it.
 
 ```shell
-$ drive help push
+drive help push
 ```
 
 To get help for all the commands
 ```shell
-$ drive help all
+drive help all
 ```
 
 ### Copying
@@ -1011,17 +1011,17 @@ $ drive help all
 drive allows you to copy content remotely without having to explicitly download and then reupload.
 
 ```shell
-$ drive copy -r blobStore.py mnt flagging
+drive copy -r blobStore.py mnt flagging
 ```
 
 ```shell
-$ drive copy blobStore.py blobStoreDuplicated.py
+drive copy blobStore.py blobStoreDuplicated.py
 ```
 
 + Also supports copying by fileIds
 
 ```shell
-$ drive copy -r --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U ../content
+drive copy -r --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U ../content
 ```
 
 
@@ -1033,14 +1033,14 @@ Two arguments are required to rename ie `<relativePath/To/source or Id>` `<newNa
 To perform a rename:
 
 ```shell
-$ drive rename url_test url_test_results
-$ drive rename openSrc/2015 2015-Contributions
+drive rename url_test url_test_results
+drive rename openSrc/2015 2015-Contributions
 ```
 
 + Also supports renaming by fileId
 
 ```shell
-$ drive rename 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 fluxing
+drive rename 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 fluxing
 ```
 
 
@@ -1050,7 +1050,7 @@ To turn off renaming locally or remotely, use flags
 For example
 
 ```shell
-$ drive rename --local=false --remote=true a/b/c/d/e/f flux
+drive rename --local=false --remote=true a/b/c/d/e/f flux
 ```
 
 
@@ -1061,14 +1061,14 @@ You can deal with clashes by using command `drive clashes`.
 * To list clashes, you can do
 
 ```shell
-$ drive clashes [--depth n] [paths...]
-$ drive clashes --list [--depth n] [paths...] # To be more explicit
+drive clashes [--depth n] [paths...]
+drive clashes --list [--depth n] [paths...] # To be more explicit
 ```
 
 * To fix clashes, you can do:
 
 ```
-$ drive clashes --fix [--depth n] [paths...]
+drive clashes --fix [--depth n] [paths...]
 ```
 
 ### Move
@@ -1076,13 +1076,13 @@ $ drive clashes --fix [--depth n] [paths...]
 drive allows you to move content remotely between folders. To do so:
 
 ```shell
-$ drive move photos/2015 angles library archives/storage
+drive move photos/2015 angles library archives/storage
 ```
 
 + Also supports moving by fileId
 
 ```shell
-$ drive move --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U ../../new_location
+drive move --id 0fM9rt0Yc9RTPeHRfRHRRU0dIY97 0fM9rt0Yc9kJRPSTFNk9kSTVvb0U ../../new_location
 ```
 
 
@@ -1094,7 +1094,7 @@ directory of the mounted drive. Blank lines and those prefixed by '#' are consid
 For example:
 
 ```shell
-$ cat << $ >> .driveignore
+cat << $ >> .driveignore
 > # My drive ignore file
 > \.gd$
 > \.so$
@@ -1115,7 +1115,7 @@ Note:
 
 ###### Sample .driveignore with the include and exclude clauses combined.
 ```shell
-$ cat << $ >> .driveignore
+cat << $ >> .driveignore
 > ^\.
 > !^\.bashrc # .bashrc files won't be ignored
 > _export$ # _export files are to be ignored
@@ -1129,9 +1129,9 @@ and locally(in the mounted drive dir) or in the directory that you are running a
 The entries for a .driverc file is in the form a key-value pair where the key is any of the arguments that you'd get
 from running
 ```shell
-$ drive <command> -h
-$ # e.g
-$ drive push -h
+drive <command> -h
+# e.g
+drive push -h
 ```
 
 and the value is the argument that you'd ordinarily supply on the commandline
@@ -1139,22 +1139,22 @@ and the value is the argument that you'd ordinarily supply on the commandline
 For example:
 
 ```shell
-$ cat << ! >> ~/.driverc
+cat << ! >> ~/.driverc
 > # My global .driverc file
 > exports=doc,pdf
 > depth=100
 > no-prompt=true
 > !
-$
-$ cat << ! >> ~/emm.odeke-drive/.driverc
+
+cat << ! >> ~/emm.odeke-drive/.driverc
 > # The root main .driverc
 > depth=-1
 > hidden=false
 > no-clobber=true
 > exports-dir=$HOME/exports
 > !
-$
-$ cat << $ >> ~/emm.odeke-drive/fall2015Classes/.driverc
+
+cat << $ >> ~/emm.odeke-drive/fall2015Classes/.driverc
 > # My global .driverc file
 > exports-dir=$HOME/Desktop/exports
 > exports=pdf,csv,txt
@@ -1174,7 +1174,7 @@ Thus by default on Linux, drive will create \*.desktop files for files that fall
 
 To turn off this behavior, you can set flag `--desktop-links` to false e.g
 ```shell
-$ drive pull --desktop-links=false
+drive pull --desktop-links=false
 ```
 
 ## Command Aliases
@@ -1193,13 +1193,13 @@ $ drive pull --desktop-links=false
 If you would like to fetch missing index files for files that would otherwise not need any modifications, run:
 
 ```shell
-$ drive index path1 path2 path3/path3.1 # To fetch any missing indices in those paths
-$ drive index --id 0CLu4lbUI9RTRM80k8EMoe5JQY2z
+drive index path1 path2 path3/path3.1 # To fetch any missing indices in those paths
+drive index --id 0CLu4lbUI9RTRM80k8EMoe5JQY2z
 ```
 
 You can also fetch specific files by prefix matches
 ```shell
-$ drive index --matches mp3 jpg
+drive index --matches mp3 jpg
 ```
 
 * prune
@@ -1208,14 +1208,14 @@ In case you might have deleted files remotely but never using drive, and feel li
 running `drive index --prune` will search your entire indices dir for index files that do not exist remotely and remove those ones
 
 ```shell
-$ drive index --prune
+drive index --prune
 ```
 
 * prune-and-index
 To combine both operations (prune and then fetch) for indices:
 
 ```shell
-$ drive index --all-ops
+drive index --all-ops
 ```
 
 ## Url
@@ -1223,8 +1223,8 @@ $ drive index --all-ops
 The url command prints out the url of a file. It allows you to specify multiple paths relative to root or even by id
 
 ```shell
-$ drive url Photos/2015/07/Releases intros/flux
-$ drive url --id  0Bz5qQkvRAeVEV0JtZl4zVUZFWWx  1Pwu8lzYc9RTPTEpwYjhRMnlSbDQ 0Cz5qUrvDBeX4RUFFbFZ5UXhKZm8
+drive url Photos/2015/07/Releases intros/flux
+drive url --id  0Bz5qQkvRAeVEV0JtZl4zVUZFWWx  1Pwu8lzYc9RTPTEpwYjhRMnlSbDQ 0Cz5qUrvDBeX4RUFFbFZ5UXhKZm8
 ```
 
 ## Open
@@ -1232,8 +1232,8 @@ $ drive url --id  0Bz5qQkvRAeVEV0JtZl4zVUZFWWx  1Pwu8lzYc9RTPTEpwYjhRMnlSbDQ 0Cz
 The open command allows for files to be opened by the default file browser, default web browser, either by path or by id for paths that exist atleast remotely
 
 ```shell
-$ drive open --file-browser=false --web-browser f1/f2/f3 jamaican.mp4
-$ drive open --file-browser --id 0Bz8qQkpZAeV9T1PObvs2Y3BMQEj 0Y9jtQkpXAeV9M1PObvs4Y3BNRFk
+drive open --file-browser=false --web-browser f1/f2/f3 jamaican.mp4
+drive open --file-browser --id 0Bz8qQkpZAeV9T1PObvs2Y3BMQEj 0Y9jtQkpXAeV9M1PObvs4Y3BNRFk
 ```
 
 ## Drive server
@@ -1241,8 +1241,8 @@ $ drive open --file-browser --id 0Bz8qQkpZAeV9T1PObvs2Y3BMQEj 0Y9jtQkpXAeV9M1POb
 To enable services like qr-code sharing, you'll need to have the server running that will serve content once invoked in a web browser to allow for resources to be accessed on another device e.g your mobile phone
 
 ```shell
-$ go get github.com/odeke-em/drive/drive-server && drive-server
-$ drive-server
+go get github.com/odeke-em/drive/drive-server && drive-server
+drive-server
 ```
 
 Pre-requisites:
@@ -1256,7 +1256,7 @@ Optionally
 If the above keys are not set in your env, you can do this
 
 ```shell
-$ DRIVE_SERVER_PUB_KEY=<pub_key> DRIVE_SERVER_PRIV_KEY=<priv_key> [DRIVE...] drive-server
+DRIVE_SERVER_PUB_KEY=<pub_key> DRIVE_SERVER_PRIV_KEY=<priv_key> [DRIVE...] drive-server
 ```
 
 ## QR Code Share
@@ -1269,9 +1269,9 @@ In order for this to run, you have to have the `drive-server` running
 As long as the server is running on a known domain, then you can start the qr-link getting ie
 
 ```shell
-$ drive qr vines/kevin-hart.mp4 notes/caches.pdf
-$ drive qr --address http://192.168.1.113:8010 books/newest.pdf maps/infoGraphic.png
-$ drive qr --address https://my.server books/newest.pdf maps/infoGraphic.png
+drive qr vines/kevin-hart.mp4 notes/caches.pdf
+drive qr --address http://192.168.1.113:8010 books/newest.pdf maps/infoGraphic.png
+drive qr --address https://my.server books/newest.pdf maps/infoGraphic.png
 ```
 
 That should open up a browser with the QR code that when scanned will open up the desired file.
@@ -1281,8 +1281,8 @@ That should open up a browser with the QR code that when scanned will open up th
 To star or unstar documents,
 
 ```shell
-$ drive star information quest/A/B/C
-$ drive star --id 0fM9rt0Yc9RTPaDdsNzg1dXVjM0E 0fM9rt0Yc9RTPaTVGc1pzODN1NjQ 0fM9rt0Yc9RTPV1NaNFp5WlV3dlU
+drive star information quest/A/B/C
+drive star --id 0fM9rt0Yc9RTPaDdsNzg1dXVjM0E 0fM9rt0Yc9RTPaTVGc1pzODN1NjQ 0fM9rt0Yc9RTPV1NaNFp5WlV3dlU
 ```
 
 ```shell
@@ -1326,11 +1326,11 @@ For example to patch your code with that on remote branch patch-1, you'll need t
 code directory, fetch all content from the git remote, checkout the patch branch then run the go installation: something like this.
 
 ```shell
-$ cd $GOPATH/src/github.com/odeke-em/drive
-$ git fetch --all
-$ git checkout patch-1
-$ git pull origin patch-1
-$ go get github.com/odeke-em/drive/cmd/drive
+cd $GOPATH/src/github.com/odeke-em/drive
+git fetch --all
+git checkout patch-1
+git pull origin patch-1
+go get github.com/odeke-em/drive/cmd/drive
 ```
 
 ## Why another Google Drive client?
@@ -1347,16 +1347,16 @@ Background sync is not just hard, it is stupid. Here are my technical and philos
 
 * Upstreaming and downstreaming. Unlike a sync command, we provide pull and push actions. The user has the opportunity to decide what to do with their local copy and when they decide to. Make some changes, either push the file remotely or revert it to the remote version. You can perform these actions with user prompt:
 
-	    $ echo "hello" > hello.txt
-	    $ drive push # pushes hello.txt to Google Drive
-	    $ echo "more text" >> hello.txt
-	    $ drive pull # overwrites the local changes with the remote version
+	    echo "hello" > hello.txt
+	    drive push # pushes hello.txt to Google Drive
+	    echo "more text" >> hello.txt
+	    drive pull # overwrites the local changes with the remote version
 
 * Allowing to work with a specific file or directory, optionally not recursively. If you recently uploaded a large VM image to Google Drive, yet only a few text files are required for you to work, simply only push/pull the exact files you'd like to worth with:
 
-	    $ echo "hello" > hello.txt
-	    $ drive push hello.txt # pushes only the specified file
-	    $ drive pull path/to/a/b path2/to/c/d/e # pulls the remote directory recursively
+	    echo "hello" > hello.txt
+	    drive push hello.txt # pushes only the specified file
+	    drive pull path/to/a/b path2/to/c/d/e # pulls the remote directory recursively
 
 * Better I/O scheduling. One of the major goals is to provide better scheduling to improve upload/download times.
 
